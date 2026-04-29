@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply m-0 bg-black text-white font-sans antialiased;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gradient-to-b from-[#C9A74E] to-[#E6C76E] rounded;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gradient-to-b from-[#E6C76E] to-[#C9A74E];
+  }
+  
+  /* Selection styling */
+  ::selection {
+    @apply bg-[rgba(201,167,78,0.3)] text-white;
+  }
+  
+  /* Focus styles */
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-2 outline-[#C9A74E] outline-offset-2;
+  }
+}
+
+@layer components {
+  .gold-text {
+    @apply bg-gradient-to-r from-[#C9A74E] via-[#E6C76E] to-[#C9A74E] bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: goldShimmer 3s ease-in-out infinite;
+  }
+  
+  .shine {
+    @apply absolute -top-1/2 -left-1/2 w-[200%] h-[200%];
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(201, 167, 78, 0.1) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg) translateX(-100%);
+    animation: shine 3s infinite;
+  }
+}
+
+@layer utilities {
+  @keyframes goldShimmer {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: rotate(45deg) translateX(-100%);
+    }
+    50% {
+      transform: rotate(45deg) translateX(100%);
+    }
+    100% {
+      transform: rotate(45deg) translateX(100%);
+    }
+  }
+  
+  .animate-gold-shimmer {
+    animation: goldShimmer 3s ease-in-out infinite;
+  }
+  
+  .animate-shine {
+    animation: shine 3s infinite;
+  }
+}
