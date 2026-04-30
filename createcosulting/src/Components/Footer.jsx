@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { ChevronUp, Mail, Phone, MapPin, MessageCircle, Share2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  ChevronUp, Mail, Phone, MapPin, 
+  Globe, MessageCircle, ArrowRight, Shield 
+} from "lucide-react";
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -13,222 +17,137 @@ export default function Footer() {
   };
 
   const footerLinks = {
-    company: [
-      { name: "About Us", href: "#about" },
-      { name: "Our Team", href: "#team" },
-      { name: "Careers", href: "#careers" },
-      { name: "Press", href: "#press" }
-    ],
-    services: [
-      { name: "Wealth Strategy", href: "#wealth" },
-      { name: "Business Advisory", href: "#business" },
-      { name: "Asset Protection", href: "#protection" },
-      { name: "Strategic Education", href: "#education" }
-    ],
-    resources: [
-      { name: "Blog", href: "#blog" },
-      { name: "Case Studies", href: "#cases" },
-      { name: "White Papers", href: "#papers" },
-      { name: "FAQ", href: "#faq" }
-    ],
-    legal: [
-      { name: "Privacy Policy", href: "#privacy" },
-      { name: "Terms of Service", href: "#terms" },
-      { name: "Cookie Policy", href: "#cookies" },
-      { name: "Compliance", href: "#compliance" }
-    ]
+    company: ["About Us", "Our Team", "Careers", "Press"],
+    services: ["Wealth Strategy", "Business Advisory", "Asset Protection", "Strategic Education"],
+    resources: ["Insights", "Case Studies", "White Papers", "Compliance"]
   };
-
-  const socialLinks = [
-    { icon: <MessageCircle className="w-5 h-5" />, href: "#contact", label: "Contact" },
-    { icon: <Share2 className="w-5 h-5" />, href: "#share", label: "Share" }
-  ];
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="relative bg-black border-t border-[#D4AF37]/20">
-      {/* BACKGROUND DECORATION */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-yellow-600 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-l from-yellow-500 to-transparent rounded-full blur-3xl"></div>
-      </div>
+    <footer className="relative bg-[#050505] text-white pt-24 pb-12 overflow-hidden border-t border-white/5">
+      {/* BACKGROUND DECOR */}
+      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-yellow-600/5 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="relative z-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
         
-        {/* NEWSLETTER SECTION */}
-        <div className="border-b border-gray-800">
-          <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
-            <div className="text-center max-w-3xl mx-auto">
-              <h3 className="text-2xl md:text-3xl font-semibold gold-text mb-4">
-                Stay Informed
-              </h3>
-              <p className="text-gray-300 mb-8">
-                Subscribe to our newsletter for exclusive insights and strategic perspectives.
-              </p>
+        {/* TOP TIER: NEWSLETTER & BRAND */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 pb-20 border-b border-white/5">
+          <div className="lg:col-span-5">
+            <h4 className="text-2xl font-serif mb-6 italic">Creative <span className="text-yellow-600 not-italic font-sans font-bold">Consulting.</span></h4>
+            <p className="text-gray-500 text-sm leading-relaxed max-w-sm mb-8">
+              Equipping discerning individuals with the structures needed to operate with independence and precision.
+            </p>
+            <div className="flex gap-4">
+              {[Globe, MessageCircle].map((Icon, i) => (
+                <a key={i} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-500 hover:text-yellow-600 hover:border-yellow-600 transition-all">
+                  <Icon size={18} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="lg:col-span-7 bg-white/[0.02] p-8 md:p-12 border border-white/5 rounded-2xl">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+              <div className="max-w-xs">
+                <h5 className="text-lg font-serif italic mb-2">Private Insights</h5>
+                <p className="text-xs text-gray-500 tracking-wide uppercase">Subscribe to our quarterly strategic briefing.</p>
+              </div>
               
-              {isSubscribed ? (
-                <div className="bg-green-500/20 border border-green-500/50 p-4 rounded-lg">
-                  <p className="text-green-400">Thank you for subscribing!</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-600 focus:outline-none transition"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-semibold px-6 py-3 rounded-md hover:opacity-90 transition-opacity"
-                  >
-                    Subscribe
-                  </button>
-                </form>
-              )}
+              <div className="w-full md:w-auto">
+                {isSubscribed ? (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-yellow-600 font-mono text-xs tracking-widest">
+                    CONNECTION ESTABLISHED.
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubscribe} className="flex border-b border-white/20 pb-2 gap-4">
+                    <input 
+                      type="email" 
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="EMAIL ADDRESS" 
+                      className="bg-transparent text-xs tracking-widest focus:outline-none w-full md:w-64 placeholder:text-gray-700"
+                    />
+                    <button type="submit" className="text-yellow-600 hover:text-yellow-500 transition-colors">
+                      <ArrowRight size={20} />
+                    </button>
+                  </form>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* MAIN FOOTER CONTENT */}
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-            
-            {/* COMPANY INFO */}
-            <div className="lg:col-span-2">
-              <h4 className="text-xl font-semibold gold-text mb-6">Creative Consulting</h4>
-              <p className="text-gray-400 mb-6 leading-relaxed">
-                Strategic insight with timeless sophistication. We empower discerning individuals 
-                and organizations with sophisticated wealth management and strategic education.
-              </p>
-              
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Phone className="w-4 h-4 text-yellow-600" />
-                  <span className="text-sm">+1 (555) 123-4567</span>
+        {/* MIDDLE TIER: NAVIGATION */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 py-20">
+          <div className="col-span-2 space-y-6">
+            <h5 className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-bold">Inquiries</h5>
+            <div className="space-y-4">
+              <div className="group flex items-center gap-4 text-sm text-gray-400 cursor-pointer">
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-yellow-600 transition-colors">
+                  <Phone size={14} className="group-hover:text-black" />
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Mail className="w-4 h-4 text-yellow-600" />
-                  <span className="text-sm">consulting@creative.com</span>
+                +1 (555) 123-4567
+              </div>
+              <div className="group flex items-center gap-4 text-sm text-gray-400 cursor-pointer">
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-yellow-600 transition-colors">
+                  <Mail size={14} className="group-hover:text-black" />
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <MapPin className="w-4 h-4 text-yellow-600" />
-                  <span className="text-sm">123 Financial District, New York, NY 10004</span>
-                </div>
-              </div>
-
-              {/* SOCIAL LINKS */}
-              <div className="flex gap-4 mt-6">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 bg-gray-800/50 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-yellow-600 hover:border-yellow-600 transition-all duration-300"
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* FOOTER LINKS */}
-            <div>
-              <h5 className="text-white font-semibold mb-4">Company</h5>
-              <ul className="space-y-3">
-                {footerLinks.company.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-yellow-600 transition-colors duration-300 text-sm"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="text-white font-semibold mb-4">Services</h5>
-              <ul className="space-y-3">
-                {footerLinks.services.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-yellow-600 transition-colors duration-300 text-sm"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="text-white font-semibold mb-4">Resources</h5>
-              <ul className="space-y-3">
-                {footerLinks.resources.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-yellow-600 transition-colors duration-300 text-sm"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* LEGAL LINKS */}
-          <div className="border-t border-gray-800 mt-12 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="flex flex-wrap gap-6">
-                {footerLinks.legal.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.href}
-                    className="text-gray-500 hover:text-yellow-600 transition-colors duration-300 text-xs"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </div>
-              
-              <div className="text-gray-500 text-xs">
-                © 2024 Creative Consulting. All rights reserved.
+                strategy@creative.com
               </div>
             </div>
           </div>
 
-          {/* DISCLAIMER */}
-          <div className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-700">
-            <p className="text-gray-400 text-xs leading-relaxed">
-              <strong>Disclaimer:</strong> Creative Consulting provides strategic advisory and educational services. 
+          {Object.entries(footerLinks).map(([title, links]) => (
+            <div key={title} className="space-y-6">
+              <h5 className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-bold">{title}</h5>
+              <ul className="space-y-4">
+                {links.map(link => (
+                  <li key={link}>
+                    <a href="#" className="text-sm text-gray-400 hover:text-yellow-600 transition-colors">{link}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* BOTTOM TIER: COMPLIANCE & LEGAL */}
+        <div className="pt-12 border-t border-white/5 flex flex-col lg:flex-row justify-between gap-8 items-start lg:items-center">
+          <div className="flex gap-8">
+            {["Privacy", "Terms", "Cookies", "Regulatory"].map(item => (
+              <a key={item} href="#" className="text-[10px] uppercase tracking-widest text-gray-600 hover:text-white transition-colors">{item}</a>
+            ))}
+          </div>
+          <p className="text-[10px] font-mono text-gray-600 tracking-widest">
+            © 2026 CREATIVE CONSULTING / ALL RIGHTS RESERVED
+          </p>
+        </div>
+
+        {/* DISCLAIMER SENTINEL */}
+        <div className="mt-16 p-8 border border-white/5 bg-white/[0.01] rounded-lg">
+          <div className="flex gap-4">
+            <Shield className="w-5 h-5 text-yellow-600 shrink-0" />
+            <p className="text-[10px] text-gray-600 leading-relaxed uppercase tracking-wider">
+              <span className="text-gray-400 font-bold">Mandatory Disclosure:</span> Creative Consulting provides strategic advisory and educational services. 
               We are not a registered investment advisor, broker-dealer, or financial institution. 
-              All consultations are for educational and informational purposes only. 
-              Past performance does not guarantee future results. Consult with qualified professionals 
-              before making any financial decisions.
+              Consultations are for educational and informational purposes only. 
+              Sovereignty requires due diligence; past success does not mandate future trajectory.
             </p>
           </div>
         </div>
-
-        {/* SCROLL TO TOP BUTTON */}
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-full flex items-center justify-center text-black hover:opacity-90 transition-opacity duration-300 shadow-lg z-50"
-          aria-label="Scroll to top"
-        >
-          <ChevronUp className="w-5 h-5" />
-        </button>
       </div>
+
+      {/* FLOAT ACTION */}
+      <button 
+        onClick={scrollToTop}
+        className="absolute bottom-12 right-12 w-12 h-12 border border-white/10 flex items-center justify-center group hover:border-yellow-600 transition-all rounded-full"
+      >
+        <ChevronUp size={20} className="text-gray-500 group-hover:text-yellow-600 group-hover:-translate-y-1 transition-all" />
+      </button>
     </footer>
   );
 }

@@ -1,81 +1,114 @@
-import { useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import bg1 from "../assets/Old library Background.jpg";
-import bg2 from "../assets/hero.png";
 
 export default function Hero() {
-  const [scrollY, setScrollY] = useState(0);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Refined Parallax & Scaling
+  const bgScale = useTransform(scrollY, [0, 1000], [1.05, 1.2]);
+  const contentY = useTransform(scrollY, [0, 500], [0, -30]);
+  const pillarX = useTransform(scrollY, [0, 500], [0, 40]);
 
-  // Smooth background blend
-  const opacity = Math.min(scrollY / 600, 1);
+  const pillars = [
+    { id: "01", label: "Unlock", text: "Cognitive Edge" },
+    { id: "02", label: "Build", text: "Legacy Assets" },
+    { id: "03", label: "Control", text: "Market Destiny" },
+  ];
 
   return (
-    <section className="relative h-[120vh] overflow-hidden">
+    <section className="relative min-h-screen w-full overflow-hidden bg-[#0f1115] flex items-center">
+      
+      {/* BACKGROUND - LAYERED REVEAL */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+        className="absolute inset-0 z-0"
+      >
+        <motion.div
+          style={{ scale: bgScale }}
+          className="h-full w-full bg-cover bg-center grayscale-[70%] brightness-[0.5] opacity-60"
+          style={{ backgroundImage: `url(${bg1})`, scale: bgScale }}
+        />
+        {/* Soft Vignette & Color Overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#0f1115_90%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0f1115] via-[#0f1115]/60 to-transparent" />
+      </motion.div>
 
-      {/* BACKGROUND 1 */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-700"
-        style={{
-          backgroundImage: `url(${bg1})`,
-          transform: `scale(${1 + scrollY * 0.0003})`,
-        }}
-      />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        {/* LEFT COLUMN: BRANDING & COPY */}
+        <motion.div style={{ y: contentY }} className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-yellow-600/60" />
+              <span className="text-yellow-600/80 text-[11px] font-bold uppercase tracking-[0.4em]">
+                Est. MMXXVI — Global Advisory
+              </span>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl font-serif text-slate-50 leading-[1.05] mb-6">
+              The Art of <br />
+              <span className="italic text-yellow-600/90 font-light">Strategy.</span>
+            </h1>
+            
+            <p className="text-slate-400 text-lg md:text-xl max-w-md font-light leading-relaxed">
+              We translate complex ambition into structured wealth. Private advisory for the modern architect of legacy.
+            </p>
+          </motion.div>
 
-      {/* BACKGROUND 2 (BLEND) */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-700"
-        style={{
-          backgroundImage: `url(${bg2})`,
-          opacity: opacity,
-          transform: `scale(${1 + scrollY * 0.0005})`,
-        }}
-      />
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-wrap gap-6"
+          >
+            <button className="relative group overflow-hidden bg-yellow-600 text-[#0f1115] px-10 py-4 font-bold uppercase text-[10px] tracking-widest transition-all hover:bg-yellow-500 shadow-xl shadow-yellow-600/10">
+              <span className="relative z-10">Secure Consultation</span>
+              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+            </button>
+            <button className="px-10 py-4 border border-slate-700 text-slate-200 font-bold uppercase text-[10px] tracking-widest hover:border-yellow-600 hover:text-yellow-600 transition-all">
+              Private Portfolio
+            </button>
+          </motion.div>
+        </motion.div>
 
-      {/* OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/900 z-10"></div>
-
-      {/* CONTENT */}
-      <div className="relative z-20 flex flex-col items-center justify-center text-center h-screen px-6">
-
-        {/* MAIN TITLE */}
-        <h1 className="text-5xl md:text-7xl font-semibold gold-text mb-6 tracking-tight leading-tight">
-          Creative Consulting
-        </h1>
-
-        {/* SUBTEXT */}
-        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-10">
-          Strategic insight with timeless sophistication.
-        </p>
-
-        {/* SECOND HEADLINE BLOCK */}
-        <div className="mt-10 space-y-3 text-xl md:text-2xl font-light">
-          <p>
-            <span className="gold-text font-medium">Unlock</span> Your Thinking.
-          </p>
-          <p>
-            <span className="gold-text font-medium">Build</span> Your Structure.
-          </p>
-          <p>
-            <span className="gold-text font-medium">Control</span> Your Future.
-          </p>
-        </div>
-
-        {/* DESCRIPTION */}
-        <p className="text-gray-400 max-w-2xl mt-6 mb-8 text-sm md:text-base">
-          Creative Consulting provides private advisory and strategic education
-          to build, protect, and grow wealth with clarity and precision.
-        </p>
-
-        {/* CTA */}
-        <button className="bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-semibold px-8 py-3 rounded-md hover:opacity-90 transition-opacity">
-          Book a Private Consultation
-        </button>
+        {/* RIGHT COLUMN: REFINED CARDS */}
+        <motion.div 
+          style={{ x: pillarX }}
+          className="hidden lg:flex flex-col gap-6 items-end"
+        >
+          {pillars.map((item, idx) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6 + idx * 0.1, duration: 0.8 }}
+              whileHover={{ x: -15, backgroundColor: "rgba(30, 41, 59, 0.4)" }}
+              className="w-72 p-8 border-r-2 border-yellow-600/20 bg-slate-900/30 backdrop-blur-sm group cursor-pointer transition-all border border-slate-800/50"
+            >
+              <span className="text-yellow-600/40 font-mono text-[10px] block mb-3 group-hover:text-yellow-500 transition-colors">
+                {item.id} //
+              </span>
+              <h3 className="text-slate-100 text-2xl font-serif mb-1 group-hover:text-yellow-500 transition-colors italic">
+                {item.label}
+              </h3>
+              <p className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+                {item.text}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
+
+      {/* AMBIENT LIGHT DECOR */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-yellow-600/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-12 h-48 w-px bg-gradient-to-t from-yellow-600/30 to-transparent hidden md:block" />
+
     </section>
   );
 }

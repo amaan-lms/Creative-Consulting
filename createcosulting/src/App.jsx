@@ -10,10 +10,18 @@ function App() {
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Contact />
+      <section id="home">
+        <Hero />
+      </section>
+      <section id="about">
+        <About />
+      </section>
+      <section id="services">
+        <Services />
+      </section>
+      <section id="contact">
+        <Contact />
+      </section>
       <Footer />
     </div>
   )
